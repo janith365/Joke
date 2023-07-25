@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <title>Humor Me!</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Let's find something to crack you up! ✌️</h1>
+
+      <form action="/" id="form" class="form" method="POST">
+        <select name="category" class="form-select">
+          <option value="" data-display="Select">Random Category</option>
+          <% categories.forEach(category => { %>
+          <option value="<%= category %>"><%= category %></option>
+          <% }) %>
+        </select>
+        <select name="amount" class="form-select">
+          <% for (i = 1; i <= maxAmount; i++) { %>
+          <option value="<%= i %>"><%= i %></option>
+          <% } %>
+        </select>
+        <button type="submit" class="form-submit">Go</button>
+      </form>
+      <section id="cards" class="cards">
+        <% if (locals.data) { %> <% if (data.amount > 1) { %> <% data.jokes.forEach(joke => { %>
+        <article class="card-item">
+          <% if (joke.type === 'twopart') { %>
+          <h3 class="card-activity">Setup: <%= joke.setup %></h3>
+          <h3 class="card-activity">Delivery: <%= joke.delivery %></h3>
+          <% } else { %>
+          <h2 class="card-activity"><%= joke.joke %></h2>
+          <% } %>
+          <div class="card-info">
+            <span class="card-type">Category: <%= joke.category %></span>
+          </div>
+        </article>
+        <% }) %> <% } else { %>
+        <article class="card-item">
+          <% if (data.type === 'twopart') { %>
+          <h3 class="card-activity">Setup: <%= data.setup %></h3>
+          <h3 class="card-activity">Delivery: <%= data.delivery %></h3>
+          <% } else { %>
+          <h2 class="card-activity"><%= data.joke %></h2>
+          <% } %>
+          <div class="card-info">
+            <span class="card-type">Category: <%= data.category %></span>
+          </div>
+        </article>
+        <% } %> <% } %>
+        <!-- Error -->
+        <% if (locals.error) { %>
+        <div id="tag-error" class="tag-error"><%= error.message %></div>
+        <% } %>
+      </section>
+    </div>
+  </body>
+</html>
